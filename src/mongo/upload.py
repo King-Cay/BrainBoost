@@ -4,7 +4,7 @@ import os
 import mimetypes
 import gridfs
 from datetime import datetime
-from src.config import MONGO_URI, MONGO_BDD, MONGO_COLLECTION, THRESHOLD
+from src.config import MONGO_URI, MONGO_BDD, MONGO_COLLECTION_DOC, THRESHOLD
 
 
 def get_metadata(filepath):
@@ -20,7 +20,7 @@ def get_metadata(filepath):
 
 
 def upload_to_mongo_small(db, metadata, data):
-    res = db[MONGO_COLLECTION].insert_one({
+    res = db[MONGO_COLLECTION_DOC].insert_one({
         **metadata,
         "storage": "binary",
         "added_at": datetime.now(),
@@ -39,7 +39,7 @@ def upload_to_mongo_big(db, metadata, fileobj):
         extension=metadata["extension"],
     )
     # Document de référence dans la même collection que les petits fichiers
-    res = db[MONGO_COLLECTION].insert_one({
+    res = db[MONGO_COLLECTION_DOC].insert_one({
         **metadata,
         "storage": "gridfs",
         "gridfs_id": file_id,
@@ -48,7 +48,7 @@ def upload_to_mongo_big(db, metadata, fileobj):
     return res.inserted_id
 
 
-def upload_to_mongo(filepath):
+def upload_to_mongo(filepath,):
     metadata = get_metadata(filepath)
 
     client = MongoClient(MONGO_URI)
