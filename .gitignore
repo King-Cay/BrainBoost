@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# Environnements et secrets
+venv/
+.env
+
+# Projet
+output/
+data/
+test_bib/
+test_main.py
+
+# Éditeurs / OS
+.vscode/
+.idea/
+.DS_Store
