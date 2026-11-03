@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from bson import Binary
 
 
-def build_file_doc(name, content, mime, source_id=None):
+def build_file_doc(name, content, mime, source_id=None,**extra_fields):
     if isinstance(content, str):
         storage, stored, size = "text", content, len(content.encode("utf-8"))
     else:
@@ -20,4 +20,5 @@ def build_file_doc(name, content, mime, source_id=None):
     }
     if source_id is not None:
         doc["source_id"] = source_id
+    doc.update(extra_fields)
     return doc

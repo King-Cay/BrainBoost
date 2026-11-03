@@ -43,10 +43,9 @@ def read_pdf(doc_id):
             rendered = get_converter()(tmp.name)
 
         text, meta_json, images = text_from_rendered(rendered)
-        now = datetime.now(timezone.utc)
 
         text_id = db[MONGO_COLLECTION_MD].insert_one(
-            build_file_doc(f"{stem}.md", text,"text/markdown", doc[id])
+            build_file_doc(f"{stem}.md", text,"text/markdown", doc["_id"])
         ).inserted_id
 
         meta_id = db[MONGO_COLLECTION_METADATA_MD].insert_one(
